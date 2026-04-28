@@ -24,3 +24,4 @@ app = ApplicationBuilder().token(TOKEN).build()
 app.add_handler(MessageHandler(filters.TEXT, search_movie))
 
 app.run_polling()
+CHANNEL_USERNAME = "@mckmovies01"
