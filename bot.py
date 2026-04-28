@@ -1,28 +1,27 @@
 import json
 import os
-from telegram.ext import Updater, MessageHandler, Filters
+from telegram import Update
+from telegram.ext import ApplicationBuilder, MessageHandler, filters, ContextTypes
 
 TOKEN = os.getenv("BOT_TOKEN")
 
 with open("movies.json", "r") as f:
     movies = json.load(f)
 
-def search_movie(update, context):
+async def search_movie(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_text = update.message.text.lower()
 
     for movie in movies:
         if user_text in movie["name"].lower():
-            update.message.reply_text(
+            await update.message.reply_text(
                 f"{movie['name']} ({movie['year']})\nWatch: {movie['link']}"
             )
             return
 
-    update.message.reply_text("Movie nahi sapadli bhau 😅")
+    await update.message.reply_text("Movie nahi sapadli bhau 😅")
 
-updater = Updater(TOKEN, use_context=True)
-dp = updater.dispatcher
+app = ApplicationBuilder().token(TOKEN).build()
+app.add_handler(MessageHandler(filters.TEXT, search_movie))
 
-dp.add_handler(MessageHandler(Filters.text, search_movie))
-
-updater.start_polling()
-updater.idle()
+print("Bot started 🚀")
+app.run_polling()
