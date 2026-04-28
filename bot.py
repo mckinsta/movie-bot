@@ -23,5 +23,4 @@ async def search_movie(update: Update, context: ContextTypes.DEFAULT_TYPE):
 app = ApplicationBuilder().token(TOKEN).build()
 app.add_handler(MessageHandler(filters.TEXT, search_movie))
 
-print("Bot started 🚀")
 app.run_polling()
