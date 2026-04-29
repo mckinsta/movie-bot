@@ -31,9 +31,10 @@ async def search_movie_handler(update: Update, context: ContextTypes.DEFAULT_TYP
     result = search_movie(user_text)
 
     if result:
+    try:
         await update.message.reply_document(result[1])
-    else:
-        await update.message.reply_text("Movie nahi sapadli bhau 😅")
+    except:
+        await update.message.reply_video(result[1])
 
 
 app = ApplicationBuilder().token(TOKEN).build()
