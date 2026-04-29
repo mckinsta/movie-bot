@@ -3,11 +3,15 @@ import os
 from telegram import Update
 from telegram.ext import ApplicationBuilder, MessageHandler, filters, ContextTypes
 
-TOKEN = os.getenv("BOT_TOKEN")
-CHANNEL_USERNAME = "https://t.me/+XLcp59H_lOw0NmZl"   # <-- tuza channel username
+TOKEN = os.environ.get("BOT_TOKEN")
 
-with open("movies.json", "r") as f:
-    movies = json.load(f)
+CHANNEL_ID = -1003950636326
+
+if os.path.exists("movies.json"):
+    with open("movies.json", "r") as f:
+        movies = json.load(f)
+else:
+    movies = []
 
 async def search_movie(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_text = update.message.text.lower()
@@ -19,7 +23,7 @@ async def search_movie(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
             await context.bot.forward_message(
                 chat_id=update.effective_chat.id,
-                from_chat_id=CHANNEL_USERNAME,
+                from_chat_id=CHANNEL_ID,
                 message_id=movie["message_id"]
             )
             return
