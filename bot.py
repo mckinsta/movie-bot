@@ -3,7 +3,7 @@ import os
 from telegram import Update
 from telegram.ext import ApplicationBuilder, MessageHandler, filters, ContextTypes
 
-TOKEN = os.getenv("8703680242:AAGgbzLIrx2rEMT4VDdZbru-E7jpt-Ss_Tc")
+TOKEN = os.getenv("BOT_TOKEN")
 CHANNEL_USERNAME = "https://t.me/+XLcp59H_lOw0NmZl"   # <-- tuza channel username
 
 with open("movies.json", "r") as f:
