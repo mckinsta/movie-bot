@@ -15,7 +15,7 @@ cur.execute("CREATE INDEX IF NOT EXISTS idx_name ON movies(name)")
 conn.commit()
 
 def add_movie(name, file_id):
-    name = name.lower().strip()
+    nname = name.lower().replace("_", " ").strip()
     cur.execute("INSERT INTO movies (name, file_id) VALUES (?, ?)", (name, file_id))
     conn.commit()
 
