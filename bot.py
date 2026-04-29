@@ -12,12 +12,16 @@ CHANNEL_ID = -1003950636326
 async def save_movie(update: Update, context: ContextTypes.DEFAULT_TYPE):
     msg = update.message
 
+    if msg.document or msg.video:
     if msg.document:
         name = msg.document.file_name
         file_id = msg.document.file_id
+    else:
+        name = msg.video.file_name or "movie"
+        file_id = msg.video.file_id
 
-        add_movie(name, file_id)
-        await msg.reply_text("Saved ✔️")
+    add_movie(name, file_id)
+    await msg.reply_text("Saved ✔️")
 
 
 # 🔍 Search
