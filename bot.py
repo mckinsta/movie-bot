@@ -42,7 +42,7 @@ async def search_movie_handler(update: Update, context: ContextTypes.DEFAULT_TYP
 
 app = ApplicationBuilder().token(TOKEN).build()
 
-app.add_handler(MessageHandler(filters.Document.ALL, save_movie))
+app.add_handler(MessageHandler(filters.Document.ALL | filters.VIDEO, save_movie))
 app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, search_movie_handler))
 
 print("Bot started 🚀")
