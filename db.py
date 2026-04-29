@@ -30,3 +30,4 @@ def search_movie(query):
     """, (query,))
 
     return cur.fetchone()
+from db import add_movie, search_movie
