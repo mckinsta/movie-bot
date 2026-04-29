@@ -35,3 +35,12 @@ app.add_handler(MessageHandler(filters.TEXT, search_movie))
 
 print("Bot started 🚀")
 app.run_polling()
+from db import add_movie, search_movie
+if msg.document:
+    name = msg.document.file_name
+    file_id = msg.document.file_id
+    add_movie(name, file_id) 
+result = search_movie(user_text)
+
+if result:
+    await update.message.reply_document(result[1])
