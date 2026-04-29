@@ -30,8 +30,7 @@ async def search_movie_handler(update: Update, context: ContextTypes.DEFAULT_TYP
 
     result = search_movie(user_text)
 
-    if result:
-    try:
+    if result:    try:
         await update.message.reply_document(result[1])
     except:
         await update.message.reply_video(result[1])
