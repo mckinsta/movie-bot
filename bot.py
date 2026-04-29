@@ -3,7 +3,7 @@ from telegram import Update
 from telegram.ext import ApplicationBuilder, MessageHandler, filters, ContextTypes
 from db import add_movie, search_movie
 
-TOKEN = os.environ.get("BOT_TOKEN")
+TOKEN = 8703680242:AAGgbzLIrx2rEMT4VDdZbru-E7jpt-Ss_Tc
 
 CHANNEL_ID = -1003950636326
 
