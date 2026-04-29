@@ -20,6 +20,7 @@ async def save_movie(update: Update, context: ContextTypes.DEFAULT_TYPE):
             name = msg.video.file_name if msg.video.file_name else "movie"
             file_id = msg.video.file_id
 
+        print(name, file_id)  # 🔥 debug
         add_movie(name, file_id)
         await msg.reply_text("Saved ✔️")
 
