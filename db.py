@@ -30,10 +30,9 @@ def add_movie(name, file_id):   # ✅ function start
     # split part
     if "_" in name:
         movie_name, part = name.split("_")
-part = int(part)   # ✅ ADD THIS
     else:
         movie_name = name
-        part = 1
+        part = int(part)
 
     cur.execute(
         "INSERT INTO movies (name, part, file_id) VALUES (?, ?, ?)",
