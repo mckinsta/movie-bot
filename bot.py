@@ -17,29 +17,38 @@ TOKEN = "8703680242:AAGgbzLIrx2rEMT4VDdZbru-E7jpt-Ss_Tc"
 async def save_movie(update: Update, context: ContextTypes.DEFAULT_TYPE):
     msg = update.message
 
-    if msg.document or msg.video:
+    file_id = None
+    file_name = "movie"
 
-        if msg.document:
-            file_name = msg.document.file_name
-            file_id = msg.document.file_id
-        else:
-            file_name = msg.video.file_name or "movie"
-            file_id = msg.video.file_id
+    if msg.document:
+        file_id = msg.document.file_id
+        file_name = msg.document.file_name or "movie"
 
-        file_name = file_name.lower().replace(".mp4", "").strip()
+    elif msg.video:
+        file_id = msg.video.file_id
+        file_name = msg.video.file_name or "movie"
 
-        if "_" in file_name:
-            movie_name, part = file_name.rsplit("_", 1)
+    if not file_id:
+        await msg.reply_text("❌ File_id मिळाला नाही bhau")
+        return
+
+    file_name = file_name.lower().replace(".mp4", "").strip()
+
+    if "_" in file_name:
+        movie_name, part = file_name.rsplit("_", 1)
+        try:
             part = int(part)
-        else:
-            movie_name = file_name
+        except:
             part = 1
+    else:
+        movie_name = file_name
+        part = 1
 
-        movie_name = movie_name.strip().lower()
+    movie_name = movie_name.strip().lower()
 
-        add_movie(movie_name, part, file_id)
+    add_movie(movie_name, part, file_id)
 
-        await msg.reply_text(f"✔️ Saved {movie_name} Part {part}")
+    await msg.reply_text(f"✔️ Saved: {movie_name} Part {part}")
 
 # 🔍 SEARCH MOVIE
 async def search_movie_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
