@@ -30,6 +30,7 @@ def add_movie(name, file_id):   # ✅ function start
     # split part
     if "_" in name:
         movie_name, part = name.split("_")
+part = int(part)   # ✅ ADD THIS
     else:
         movie_name = name
         part = 1
@@ -43,6 +44,7 @@ def add_movie(name, file_id):   # ✅ function start
 
 # 🔍 Get all parts of a movie
 def get_parts(name):
+    name = name.lower().strip()   # ✅ ADD THIS
     cur.execute(
         "SELECT part FROM movies WHERE name=? ORDER BY part",
         (name,)
@@ -52,6 +54,7 @@ def get_parts(name):
 
 # 🎬 Get specific part file_id
 def get_movie_by_part(name, part):
+    name = name.lower().strip()   # ✅ ADD THIS
     cur.execute(
         "SELECT file_id FROM movies WHERE name=? AND part=?",
         (name, part)
