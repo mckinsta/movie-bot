@@ -42,7 +42,7 @@ async def save_movie(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await msg.reply_text(f"✔️ Saved {movie_name} Part {part}")
 
 # 🔍 SEARCH MOVIE
-async def search_movie_handler(update: Update, context: 
+async def search_movie_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.message.text.lower().replace(".mp4", "").strip()
 
     parts = get_parts(query)
