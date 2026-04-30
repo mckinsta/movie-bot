@@ -1,9 +1,10 @@
 import sqlite3
 
+# 🧱 DB CONNECT
 conn = sqlite3.connect("movies.db", check_same_thread=False)
 cur = conn.cursor()
 
-# 🧱 TABLE
+# 🧱 TABLE CREATE
 cur.execute("""
 CREATE TABLE IF NOT EXISTS movies (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -13,16 +14,14 @@ CREATE TABLE IF NOT EXISTS movies (
 )
 """)
 
+# ⚡ INDEX (fast search)
 cur.execute("CREATE INDEX IF NOT EXISTS idx_name ON movies(name)")
 conn.commit()
 
 
-# 📥 SAVE MOVIE (CLEAN FIX)
+# 📥 SAVE MOVIE
 def add_movie(name, part, file_id):
-    name = name.lower().strip()
-
-    # clean file extension
-    name = name.replace(".mp4", "").replace(".mkv", "").strip()
+    name = name.lower().replace(".mp4", "").replace(".mkv", "").strip()
 
     cur.execute(
         "INSERT INTO movies (name, part, file_id) VALUES (?, ?, ?)",
@@ -33,7 +32,7 @@ def add_movie(name, part, file_id):
 
 # 🔍 GET ALL PARTS
 def get_parts(name):
-    name = name.lower().replace(".mp4", "").strip()
+    name = name.lower().replace(".mp4", "").replace(".mkv", "").strip()
 
     cur.execute(
         "SELECT part FROM movies WHERE name=? ORDER BY part",
@@ -43,9 +42,9 @@ def get_parts(name):
     return [row[0] for row in cur.fetchall()]
 
 
-# 🎬 GET ONE PART
+# 🎬 GET SINGLE PART
 def get_movie_by_part(name, part):
-    name = name.lower().replace(".mp4", "").strip()
+    name = name.lower().replace(".mp4", "").replace(".mkv", "").strip()
 
     cur.execute(
         "SELECT file_id FROM movies WHERE name=? AND part=?",
@@ -56,14 +55,15 @@ def get_movie_by_part(name, part):
     return result[0] if result else None
 
 
-# 🔎 SEARCH (SAFE)
+# 🔎 SEARCH (optional advanced)
 def search_movie(query):
-    query = f"%{query.lower().replace('.mp4','').strip()}%"
+    query = f"%{query.lower().replace('.mp4','').replace('.mkv','').strip()}%"
 
     cur.execute("""
     SELECT name, part, file_id
     FROM movies
     WHERE name LIKE ?
+    ORDER BY part
     """, (query,))
 
     return cur.fetchall()
