@@ -56,17 +56,18 @@ async def search_movie_handler(update: Update, context: ContextTypes.DEFAULT_TYP
 
     parts = get_parts(query)
 
+    print("DEBUG QUERY:", query)
+    print("DEBUG PARTS:", parts)
+
     if not parts:
         await update.message.reply_text("❌ Movie नाही सापडली bhau 😅")
         return
 
     buttons = []
+
     for p in parts:
         buttons.append([
-            InlineKeyboardButton(
-                f"🎬 Part {p}",
-                callback_data=f"{query}|{p}"
-            )
+            InlineKeyboardButton(f"🎬 Part {p}", callback_data=f"{query}|{p}")
         ])
 
     await update.message.reply_text(
