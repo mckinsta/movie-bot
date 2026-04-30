@@ -19,6 +19,8 @@ conn.commit()
 
 
 # 📥 Save movie (auto detect part from name like def add_movie(name, file_id):
+def add_movie(name, file_id):   # ✅ function start
+
     name = name.lower().strip()
 
     # remove .mp4
@@ -30,10 +32,11 @@ conn.commit()
         movie_name, part = name.split("_")
     else:
         movie_name = name
+        part = 1
 
     cur.execute(
-        "INSERT INTO movies (name, file_id) VALUES (?, ?)",
-        (movie_name, file_id)
+        "INSERT INTO movies (name, part, file_id) VALUES (?, ?, ?)",
+        (movie_name, part, file_id)
     )
     conn.commit()
 
