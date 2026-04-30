@@ -17,23 +17,23 @@ cur.execute("CREATE INDEX IF NOT EXISTS idx_name ON movies(name)")
 conn.commit()
 
 
-# 📥 SAVE MOVIE (FIXED)
+# 📥 SAVE MOVIE (CLEAN FIX)
 def add_movie(name, part, file_id):
     name = name.lower().strip()
 
-    if name.endswith(".mp4"):
-        name = name.replace(".mp4", "")
+    # clean file extension
+    name = name.replace(".mp4", "").replace(".mkv", "").strip()
 
     cur.execute(
         "INSERT INTO movies (name, part, file_id) VALUES (?, ?, ?)",
-        (name, part, file_id)
+        (name, int(part), file_id)
     )
     conn.commit()
 
 
 # 🔍 GET ALL PARTS
 def get_parts(name):
-    name = name.lower().strip()
+    name = name.lower().replace(".mp4", "").strip()
 
     cur.execute(
         "SELECT part FROM movies WHERE name=? ORDER BY part",
@@ -45,26 +45,25 @@ def get_parts(name):
 
 # 🎬 GET ONE PART
 def get_movie_by_part(name, part):
-    name = name.lower().strip()
+    name = name.lower().replace(".mp4", "").strip()
 
     cur.execute(
         "SELECT file_id FROM movies WHERE name=? AND part=?",
-        (name, part)
+        (name, int(part))
     )
 
     result = cur.fetchone()
     return result[0] if result else None
 
 
-# 🔎 SEARCH (optional)
+# 🔎 SEARCH (SAFE)
 def search_movie(query):
-    query = f"%{query.lower()}%"
+    query = f"%{query.lower().replace('.mp4','').strip()}%"
 
     cur.execute("""
     SELECT name, part, file_id
     FROM movies
     WHERE name LIKE ?
-    LIMIT 1
     """, (query,))
 
-    return cur.fetchone()
+    return cur.fetchall()
