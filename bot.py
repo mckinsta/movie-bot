@@ -3,7 +3,7 @@ from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import ApplicationBuilder, MessageHandler, CallbackQueryHandler, filters, ContextTypes
 from db import add_movie, get_parts, get_movie_by_part
 
-TOKEN = "YOUR_TOKEN"
+TOKEN = "8703680242:AAGgbzLIrx2rEMT4VDdZbru-E7jpt-Ss_Tc"
 
 # 📥 Save movie (with part support)
 async def save_movie(update: Update, context: ContextTypes.DEFAULT_TYPE):
