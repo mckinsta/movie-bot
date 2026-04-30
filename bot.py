@@ -42,7 +42,7 @@ async def save_movie(update: Update, context: ContextTypes.DEFAULT_TYPE):
         movie_name = file_name
         part = 1
 
-    movie_name = movie_name.strip().lower()
+  movie_name = movie_name.lower().replace(".mp4", "").strip()  
 
     add_movie(movie_name, part, file_id)
 
@@ -50,8 +50,8 @@ async def save_movie(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 # 🔍 SEARCH MOVIE
-async def search_movie_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    query = update.message.text.strip().lower()
+async def search_movie_handler(update: Update, context: 
+    query = update.message.text.lower().replace(".mp4", "").strip()
 
     parts = get_parts(query)
 
