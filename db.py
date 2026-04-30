@@ -18,24 +18,22 @@ cur.execute("CREATE INDEX IF NOT EXISTS idx_name ON movies(name)")
 conn.commit()
 
 
-# 📥 Save movie (auto detect part from name like kgf_1)
-def add_movie(name, file_id):
+# 📥 Save movie (auto detect part from name like def add_movie(name, file_id):
     name = name.lower().strip()
 
+    # remove .mp4
+    if name.endswith(".mp4"):
+        name = name.replace(".mp4", "")
+
+    # split part
     if "_" in name:
-        try:
-            movie_name, part = name.split("_")
-            part = int(part)
-        except:
-            movie_name = name
-            part = 1
+        movie_name, part = name.split("_")
     else:
         movie_name = name
-        part = 1
 
     cur.execute(
-        "INSERT INTO movies (name, part, file_id) VALUES (?, ?, ?)",
-        (movie_name, part, file_id)
+        "INSERT INTO movies (name, file_id) VALUES (?, ?)",
+        (movie_name, file_id)
     )
     conn.commit()
 
